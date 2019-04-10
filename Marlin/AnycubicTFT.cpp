@@ -42,7 +42,7 @@
 
 char _conv[8];
 
-char *itostr2(const uint8_t &x)
+char *any_itostr2(const uint8_t &x)
 {
   //sprintf(conv,"%5.1f",x);
   int xx=x;
@@ -59,7 +59,7 @@ char *itostr2(const uint8_t &x)
   #define MINUSOR(n, alt) (n >= 0 ? (alt) : (n = -n, '-'))
 
 
-  char* itostr3(const int x) {
+  char* any_itostr3(const int x) {
     int xx = x;
     _conv[4] = MINUSOR(xx, RJDIGIT(xx, 100));
     _conv[5] = RJDIGIT(xx, 10);
@@ -814,25 +814,25 @@ void AnycubicTFTClass::GetCommandFromTFT()
 
           case 0: //A0 GET HOTEND TEMP
             ANYCUBIC_SERIAL_PROTOCOLPGM("A0V ");
-            ANYCUBIC_SERIAL_PROTOCOL(itostr3(int(thermalManager.degHotend(0) + 0.5)));
+            ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(int(thermalManager.degHotend(0) + 0.5)));
             ANYCUBIC_SERIAL_ENTER();
             break;
 
           case 1: //A1  GET HOTEND TARGET TEMP
             ANYCUBIC_SERIAL_PROTOCOLPGM("A1V ");
-            ANYCUBIC_SERIAL_PROTOCOL(itostr3(int(thermalManager.degTargetHotend(0) + 0.5)));
+            ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(int(thermalManager.degTargetHotend(0) + 0.5)));
             ANYCUBIC_SERIAL_ENTER();
             break;
 
           case 2: //A2 GET HOTBED TEMP
             ANYCUBIC_SERIAL_PROTOCOLPGM("A2V ");
-            ANYCUBIC_SERIAL_PROTOCOL(itostr3(int(thermalManager.degBed() + 0.5)));
+            ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(int(thermalManager.degBed() + 0.5)));
             ANYCUBIC_SERIAL_ENTER();
             break;
 
           case 3: //A3 GET HOTBED TARGET TEMP
             ANYCUBIC_SERIAL_PROTOCOLPGM("A3V ");
-            ANYCUBIC_SERIAL_PROTOCOL(itostr3(int(thermalManager.degTargetBed() + 0.5)));
+            ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(int(thermalManager.degTargetBed() + 0.5)));
             ANYCUBIC_SERIAL_ENTER();
             break;
 
@@ -868,7 +868,7 @@ void AnycubicTFTClass::GetCommandFromTFT()
                 ANYCUBIC_SERIAL_PROTOCOLPGM("A6V ");
                 if(card.cardOK)
                 {
-                  ANYCUBIC_SERIAL_PROTOCOL(itostr3(card.percentDone()));
+                  ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(card.percentDone()));
                 }
                 else
                 {
@@ -886,11 +886,11 @@ void AnycubicTFTClass::GetCommandFromTFT()
               if(starttime != 0) // print time
               {
                 uint16_t time = millis()/60000 - starttime/60000;
-                ANYCUBIC_SERIAL_PROTOCOL(itostr2(time/60));
+                ANYCUBIC_SERIAL_PROTOCOL(any_itostr2(time/60));
                 ANYCUBIC_SERIAL_SPACE();
                 ANYCUBIC_SERIAL_PROTOCOLPGM("H");
                 ANYCUBIC_SERIAL_SPACE();
-                ANYCUBIC_SERIAL_PROTOCOL(itostr2(time%60));
+                ANYCUBIC_SERIAL_PROTOCOL(any_itostr2(time%60));
                 ANYCUBIC_SERIAL_SPACE();
                 ANYCUBIC_SERIAL_PROTOCOLPGM("M");
               }else{
@@ -1298,12 +1298,12 @@ void AnycubicTFTClass::GetCommandFromTFT()
 
                 if(CodeSeen('S')) {
                   ANYCUBIC_SERIAL_PROTOCOLPGM("A9V ");
-                  ANYCUBIC_SERIAL_PROTOCOL(itostr3(int(zprobe_zoffset*100.00 + 0.5)));
+                  ANYCUBIC_SERIAL_PROTOCOL(any_itostr3(int(zprobe_zoffset*100.00 + 0.5)));
                   ANYCUBIC_SERIAL_ENTER();
                   #ifdef ANYCUBIC_TFT_DEBUG
                     SERIAL_ECHOPGM("TFT sending current z-probe offset data... <");
                     SERIAL_ECHOPGM("A9V ");
-                    SERIAL_ECHO(itostr3(int(zprobe_zoffset*100.00 + 0.5)));
+                    SERIAL_ECHO(any_itostr3(int(zprobe_zoffset*100.00 + 0.5)));
                     SERIAL_ECHOLNPGM(">");
                   #endif
                 }

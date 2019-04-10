@@ -631,8 +631,12 @@ void Endstops::update() {
     if (stepper.motor_direction(Z_AXIS_HEAD)) { // Z -direction. Gantry down, bed up.
       #if HAS_Z_MIN
         #if ENABLED(Z_DUAL_ENDSTOPS)
-          PROCESS_DUAL_ENDSTOP(Z, Z2, MIN);
-        #else
+          #if ENABLED(Z_MIN_PROBE_ENDSTOP)
+            if (!z_probe_enabled) PROCESS_DUAL_ENDSTOP(Z, Z2, MIN);;
+          #else
+            PROCESS_DUAL_ENDSTOP(Z, Z2, MIN);
+          #endif
+          #else
           #if ENABLED(Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
             if (z_probe_enabled) PROCESS_ENDSTOP(Z, MIN);
           #elif ENABLED(Z_MIN_PROBE_ENDSTOP)
